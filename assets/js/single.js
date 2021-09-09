@@ -1,6 +1,17 @@
 var repoNameEl = document.querySelector("#repo-name");
 var issueContainerEl = document.querySelector("#issues-container");
 var limitWarningEl = document.querySelector("#limit-warning");
+var repoNameEl = document.querySelector("#repo-name");
+
+var getRepoName = function() {
+    var queryString = document.location.search; 
+    var repoName = queryString.split("=")[1];
+    getRepoIssues(repoName);
+    repoNameEl.textContent = repoName;
+}
+
+
+
 
 var getRepoIssues = function(repo) {
   // format the github api url
@@ -44,7 +55,7 @@ var displayIssues = function(issues) {
     var titleEl = document.createElement("span");
     titleEl.textContent = issues[i].title;
     
-  
+
     // append to container
     issueEl.appendChild(titleEl);
 
@@ -53,32 +64,32 @@ var displayIssues = function(issues) {
 
     // check if issue is an actual issue or a pull request
     if (issues[i].pull_request) {
-      typeEl.textContent = "(Pull request)";
+    typeEl.textContent = "(Pull request)";
     }
     else {
-      typeEl.textContent = "(Issue)";
+    typeEl.textContent = "(Issue)";
     }
 
     // append to container
     issueEl.appendChild(typeEl);
-  
+
     // append to the dom
     issueContainerEl.appendChild(issueEl);
-  }
+}
 };
 
 var displayWarning = function(repo) {
   // add text to warning container
-  limitWarningEl.textContent = "To see more than 30 issues, visit ";
+limitWarningEl.textContent = "To see more than 30 issues, visit ";
 
   // create link element
-  var linkEl = document.createElement("a");
-  linkEl.textContent = "GitHub.com";
-  linkEl.setAttribute("href", "https://github.com/" + repo + "/issues");
-  linkEl.setAttribute("target", "_blank");
+var linkEl = document.createElement("a");
+linkEl.textContent = "GitHub.com";
+linkEl.setAttribute("href", "https://github.com/" + repo + "/issues");
+linkEl.setAttribute("target", "_blank");
 
   // append to warning container
-  limitWarningEl.appendChild(linkEl);
+limitWarningEl.appendChild(linkEl);
 };
 
-getRepoIssues("facebook/react");
+getRepoName();
